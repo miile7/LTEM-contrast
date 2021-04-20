@@ -20,25 +20,12 @@ n = 100
 vals = np.linspace(-1.8, 1.8, num=n)
 X, Y = np.meshgrid(vals, vals)
 
-# Initialization of arrays storing x- and y-coordinates of final electron
-# positions on the detector and meshgrids for storing x- and y-components
-# of the spin structure
-xim, yim = [], []
-spinx, spiny = np.zeros_like(X), np.zeros_like(Y)
-
-# Iteration over all points in the image
-for i, y in enumerate(vals):
-    for j, x in enumerate(vals):
-        # Computation of spin direction and deflected coordinates,
-        # stored in temporary variables
-        sx, sy = antiskyrmion(x, y, n=2, r=1)
-        xim_t, yim_t = deflect(x, y, sx, sy, scale=0.1)
-        
-        # Append spin directions to meshgrid and final coordinates to image data
-        spinx[i,j], spiny[i,j] = sx, sy
-        
-        xim.append(xim_t)
-        yim.append(yim_t)
+# compute the magnetic moments
+spinx, spiny = antiskyrmion(X, Y, n=2, r=1)
+# compute the deflection of the moments
+xim, yim = deflect(X, Y, spinx, spiny, scale=0.1)
+xim = xim.flatten()
+yim = yim.flatten()
 
 # Plot distribution of electrons in 2D on detector using KDE. More information:   
 # https://seaborn.pydata.org/generated/seaborn.kdeplot.html
