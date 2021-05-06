@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import seaborn as sns
 from skyrmions import *
 from scipy.stats.kde import gaussian_kde
 
